@@ -21,8 +21,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>co.edu.uco.crosscutting</groupId>
-			<artifactId>CrossCutting</artifactId>
+			<groupId>co.edu.uco.crosscutinggrades</groupId>
+			<artifactId>CrossCutingGrades</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
