@@ -1,0 +1,7 @@
+Actualizar, eliminar, buscar de los daos
+
+terminar dto,
+
+dao de por lo menos 3 clases
+
+extrapolar a proyecto extraclase

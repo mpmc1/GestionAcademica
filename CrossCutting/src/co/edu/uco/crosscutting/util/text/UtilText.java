@@ -1,6 +1,6 @@
 package co.edu.uco.crosscutting.util.text;
 
-import static co.edu.uco.crosscutting.util.object.UtilObject.getUtilObject;;
+import static co.edu.uco.crosscutting.util.object.UtilObject.getUtilObject;
 
 public class UtilText {
 	
