@@ -7,8 +7,24 @@ import java.sql.SQLException;
 import co.edu.uco.crosscutting.util.sql.UtilConnection;
 import co.edu.uco.grades.crosscutting.exception.GradesException;
 import co.edu.uco.grades.crosscutting.exception.enumeration.ExceptionLocation;
+import co.edu.uco.grades.data.dao.AttendanceDAO;
+import co.edu.uco.grades.data.dao.CourseDAO;
+import co.edu.uco.grades.data.dao.IdTypeDAO;
+import co.edu.uco.grades.data.dao.ProfessorDAO;
+import co.edu.uco.grades.data.dao.SessionDAO;
+import co.edu.uco.grades.data.dao.StudentCourseDAO;
+import co.edu.uco.grades.data.dao.StudentCourseStateDAO;
 import co.edu.uco.grades.data.dao.StudentDAO;
+import co.edu.uco.grades.data.dao.SubjectDAO;
+import co.edu.uco.grades.data.dao.azuresql.AttendanceAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.CourseAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.IdTypeAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.ProfessorAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.SessionAzureSqlDAO;
 import co.edu.uco.grades.data.dao.azuresql.StudentAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.StudentCourseAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.StudentCourseStateAzureSqlDAO;
+import co.edu.uco.grades.data.dao.azuresql.SubjectAzureSqlDAO;
 import co.edu.uco.grades.data.factory.DAOFactory;
 
 public class AzureSqlDAOFactory extends DAOFactory {
@@ -158,6 +174,46 @@ public class AzureSqlDAOFactory extends DAOFactory {
 	@Override
 	public StudentDAO getStudentDAO() {
 		return StudentAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public AttendanceDAO getAttendanceDAO() {
+		return AttendanceAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public CourseDAO getCourseDAO() {
+		return CourseAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public IdTypeDAO getIdtypeDAO() {
+		return IdTypeAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public ProfessorDAO getProfessorDAO() {
+		return ProfessorAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public SessionDAO getSessionDAO() {
+		return SessionAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public StudentCourseDAO getStudentCourseDAO() {
+		return StudentCourseAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public StudentCourseStateDAO getStudentCourseStateDAO() {
+		return StudentCourseStateAzureSqlDAO.build(getConnection());
+	}
+
+	@Override
+	public SubjectDAO getSubjectDAO() {
+		return SubjectAzureSqlDAO.build(getConnection());
 	}
 
 }

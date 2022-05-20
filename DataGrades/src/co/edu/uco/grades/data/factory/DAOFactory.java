@@ -2,7 +2,15 @@ package co.edu.uco.grades.data.factory;
 
 import java.sql.Connection;
 
+import co.edu.uco.grades.data.dao.AttendanceDAO;
+import co.edu.uco.grades.data.dao.CourseDAO;
+import co.edu.uco.grades.data.dao.IdTypeDAO;
+import co.edu.uco.grades.data.dao.ProfessorDAO;
+import co.edu.uco.grades.data.dao.SessionDAO;
+import co.edu.uco.grades.data.dao.StudentCourseDAO;
+import co.edu.uco.grades.data.dao.StudentCourseStateDAO;
 import co.edu.uco.grades.data.dao.StudentDAO;
+import co.edu.uco.grades.data.dao.SubjectDAO;
 
 public abstract class DAOFactory {
 	
@@ -22,6 +30,24 @@ public abstract class DAOFactory {
 	
 	public abstract void commitTransaction();
 	
+	public abstract AttendanceDAO getAttendanceDAO();
+	
+	public abstract CourseDAO getCourseDAO();
+	
+	public abstract IdTypeDAO getIdtypeDAO();
+	
+	public abstract ProfessorDAO getProfessorDAO();
+	
+	public abstract SessionDAO getSessionDAO();
+	
+	public abstract StudentCourseDAO getStudentCourseDAO();
+	
+	public abstract StudentCourseStateDAO getStudentCourseStateDAO();
+	
 	public abstract StudentDAO getStudentDAO();
+	
+	public abstract SubjectDAO getSubjectDAO();
+	
+	
 	
 }
