@@ -1,12 +1,2 @@
-Actualizar, eliminar, buscar de los daos
+tres transacciones o tres comportamientos dentro del proyecto (registar asistencia, registrar cursos, registrar nota, etc)
 
-dao de por lo menos 3 clases
-
-extrapolar a proyecto extraclase
-
-
-Dudas:
-
-util numeric get default en AttendanceDTO
-
-En attendanceAzureSqlDAO create param #3 setByte?

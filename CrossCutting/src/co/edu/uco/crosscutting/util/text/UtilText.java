@@ -5,12 +5,17 @@ import static co.edu.uco.crosscutting.util.object.UtilObject.getUtilObject;
 public class UtilText {
 	
 	public static final String EMPTY = "";
+	public static final String SPACE = " ";
 	
 	private UtilText() {
 	}
 	
 	public static boolean isNull(String value) {
 		return getUtilObject().isNull(value);
+	}
+	
+	public static boolean isEmpty(String value) {
+		return EMPTY.equals(trim(value));
 	}
 	
 	public static String getDefault(String value, String defaultValue) {

@@ -26,7 +26,7 @@ public class AttendanceAzureSqlDAO extends ConnectionSQL implements AttendanceDA
 		try(PreparedStatement preparedStatement = getConnection().prepareStatement(sql)){
 			preparedStatement.setInt(1, attendance.getStudentCourse().getId());
 			preparedStatement.setInt(2, attendance.getSession().getId());
-			preparedStatement.setByte(3, attendance.getAttended());
+			preparedStatement.setBoolean(3, attendance.getAttended());
 		}catch (SQLException exception){
 			
 			throw GradesException.buildTechnicalDataException("There was a problem trying to create a new attendance registry on sql server", exception);
@@ -47,7 +47,21 @@ public class AttendanceAzureSqlDAO extends ConnectionSQL implements AttendanceDA
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+String sql = "INSERT INTO IdType(stuentCourse, session, attended) VALUES(?,?,?)";
+		
+		try(PreparedStatement preparedStatement = getConnection().prepareStatement(sql)){
+			preparedStatement.setInt(1, attendance.getStudentCourse().getId());
+			preparedStatement.setInt(2, attendance.getSession().getId());
+			preparedStatement.setBoolean(3, attendance.getAttended());
+		}catch (SQLException exception){
+			
+			throw GradesException.buildTechnicalDataException("There was a problem trying to create a new attendance registry on sql server", exception);
+			
+		}catch (Exception exception) {
+			
+			throw GradesException.buildTechnicalDataException("There was an unexpected problem trying to create a new attendance registry on sql server", exception);
+			
+		}
 		
 	}
 

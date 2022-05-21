@@ -1,6 +1,5 @@
 package co.edu.uco.grades.dto;
 
-import co.edu.uco.crosscutting.util.numeric.UtilNumeric;
 import co.edu.uco.crosscutting.util.object.UtilObject;
 
 public class AttendanceDTO {
@@ -8,9 +7,9 @@ public class AttendanceDTO {
 	private int id;
 	private StudentCourseDTO studentCourse;
 	private SessionDTO session;
-	private Byte attended;
+	private boolean attended;
 	
-	public AttendanceDTO(int id, StudentCourseDTO studentCourse, SessionDTO session, Byte attended) {
+	public AttendanceDTO(int id, StudentCourseDTO studentCourse, SessionDTO session, boolean attended) {
 		super();
 		setId(id);
 		setStudentCourse(studentCourse);
@@ -20,10 +19,9 @@ public class AttendanceDTO {
 
 	public AttendanceDTO() {
 		super();
-		Byte ZERO = 0;
 		setSession(new SessionDTO());
 		setStudentCourse(new StudentCourseDTO());
-		setAttended(ZERO);
+		setAttended(false);
 	}
 
 	public int getId() {
@@ -50,13 +48,12 @@ public class AttendanceDTO {
 		this.session = UtilObject.getUtilObject().getDefault(session, new SessionDTO());
 	}
 
-	public Byte getAttended() {
+	public boolean getAttended() {
 		return attended;
 	}
 
-	public void setAttended(Byte attended) {
-		Byte ZERO = 0;
-		this.attended = UtilNumeric.getUtilNumeric().getDefault(attended, ZERO);
+	public void setAttended(boolean attended) {
+		this.attended = UtilObject.getUtilObject().getDefault(attended, false);
 	}
 	
 	
