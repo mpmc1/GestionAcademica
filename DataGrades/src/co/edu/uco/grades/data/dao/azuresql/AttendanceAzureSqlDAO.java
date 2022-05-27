@@ -21,7 +21,7 @@ public class AttendanceAzureSqlDAO extends ConnectionSQL implements AttendanceDA
 
 	@Override
 	public void create(AttendanceDTO attendance) {
-		String sql = "INSERT INTO IdType(stuentCourse, session, attended) VALUES(?,?,?)";
+		String sql = "INSERT INTO Attendance(studentCourse, session, attended) VALUES(?,?,?)";
 		
 		try(PreparedStatement preparedStatement = getConnection().prepareStatement(sql)){
 			preparedStatement.setInt(1, attendance.getStudentCourse().getId());
@@ -47,22 +47,21 @@ public class AttendanceAzureSqlDAO extends ConnectionSQL implements AttendanceDA
 
 	@Override
 	public void delete(int id) {
-String sql = "INSERT INTO IdType(stuentCourse, session, attended) VALUES(?,?,?)";
-		
-		try(PreparedStatement preparedStatement = getConnection().prepareStatement(sql)){
-			preparedStatement.setInt(1, attendance.getStudentCourse().getId());
-			preparedStatement.setInt(2, attendance.getSession().getId());
-			preparedStatement.setBoolean(3, attendance.getAttended());
-		}catch (SQLException exception){
-			
-			throw GradesException.buildTechnicalDataException("There was a problem trying to create a new attendance registry on sql server", exception);
-			
-		}catch (Exception exception) {
-			
-			throw GradesException.buildTechnicalDataException("There was an unexpected problem trying to create a new attendance registry on sql server", exception);
-			
+		String sql = "DELETE FROM Attendance WHERE id=?";
+
+		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+			preparedStatement.setInt(1, id);
+		} catch (SQLException exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was a problem trying to delete an attendance registry on sql server", exception);
+
+		} catch (Exception exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was an unexpected problem trying to delete an attendance registry on sql server", exception);
+
 		}
-		
 	}
 
 	@Override

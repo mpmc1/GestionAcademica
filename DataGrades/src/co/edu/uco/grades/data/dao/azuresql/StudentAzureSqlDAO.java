@@ -46,7 +46,21 @@ public class StudentAzureSqlDAO extends ConnectionSQL implements StudentDAO {
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM Student WHERE id=?";
+
+		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+			preparedStatement.setInt(1, id);
+		} catch (SQLException exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was a problem trying to delete a student registry on sql server", exception);
+
+		} catch (Exception exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was an unexpected problem trying to delete a student registry on sql server", exception);
+
+		}
 		
 	}
 

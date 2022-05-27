@@ -22,7 +22,7 @@ public class CourseAzureSqlDAO extends ConnectionSQL implements CourseDAO {
 
 	@Override
 	public void create(CourseDTO course) {
-		String sql = "INSERT INTO IdType(subject, professor, initialDate, finalDate) VALUES(?,?,?,?)";
+		String sql = "INSERT INTO Course(subject, professor, initialDate, finalDate) VALUES(?,?,?,?)";
 
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 			preparedStatement.setInt(1, course.getSubject().getId());
@@ -52,7 +52,21 @@ public class CourseAzureSqlDAO extends ConnectionSQL implements CourseDAO {
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM Course WHERE id=?";
+
+		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+			preparedStatement.setInt(1, id);
+		} catch (SQLException exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was a problem trying to delete a course registry on sql server", exception);
+
+		} catch (Exception exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was an unexpected problem trying to delete a course registry on sql server", exception);
+
+		}
 
 	}
 

@@ -21,7 +21,7 @@ public class StudentCourseStateAzureSqlDAO extends ConnectionSQL implements Stud
 
 	@Override
 	public void create(StudentCourseStateDTO studentCourseState) {
-		String sql = "INSERT INTO IdType(name) VALUES(?)";
+		String sql = "INSERT INTO StudentCourseState(name) VALUES(?)";
 
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 			preparedStatement.setString(1, studentCourseState.getName());
@@ -49,7 +49,21 @@ public class StudentCourseStateAzureSqlDAO extends ConnectionSQL implements Stud
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM StudentCourseState WHERE id=?";
+
+		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+			preparedStatement.setInt(1, id);
+		} catch (SQLException exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was a problem trying to delete a student course state registry on sql server", exception);
+
+		} catch (Exception exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was an unexpected problem trying to delete a student course state registry on sql server", exception);
+
+		}
 		
 	}
 

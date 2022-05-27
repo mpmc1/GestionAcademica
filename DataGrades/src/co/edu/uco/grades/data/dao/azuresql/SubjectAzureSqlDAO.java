@@ -21,7 +21,7 @@ public class SubjectAzureSqlDAO extends ConnectionSQL implements SubjectDAO {
 
 	@Override
 	public void create(SubjectDTO subject) {
-		String sql = "INSERT INTO IdType(name) VALUES(?)";
+		String sql = "INSERT INTO Subject(name) VALUES(?)";
 
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 			preparedStatement.setString(1, subject.getName());
@@ -48,7 +48,21 @@ public class SubjectAzureSqlDAO extends ConnectionSQL implements SubjectDAO {
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM Subject WHERE id=?";
+
+		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+			preparedStatement.setInt(1, id);
+		} catch (SQLException exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was a problem trying to delete a subject registry on sql server", exception);
+
+		} catch (Exception exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was an unexpected problem trying to delete a subject registry on sql server", exception);
+
+		}
 		
 	}
 
