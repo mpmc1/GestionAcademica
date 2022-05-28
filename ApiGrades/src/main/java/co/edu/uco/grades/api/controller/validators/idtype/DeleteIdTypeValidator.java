@@ -3,7 +3,7 @@ package co.edu.uco.grades.api.controller.validators.idtype;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.uco.crosscutting.util.numeric.UtilNumeric;
+import co.edu.uco.crosscutting.util.object.UtilObject;
 import co.edu.uco.grades.api.controller.validators.Validator;
 import co.edu.uco.grades.dto.IdTypeDTO;
 
@@ -13,9 +13,10 @@ public class DeleteIdTypeValidator implements Validator<IdTypeDTO>{
 
 	@Override
 	public List<String> validate(IdTypeDTO dto) {
-		if (!UtilNumeric.getUtilNumeric().isGreatherThan(dto.getId(), 0)) {
-			validationMessages.add("Id must be greather than zero");
+		if (UtilObject.getUtilObject().isNull(dto)) {
+			validationMessages.add("Is not possible to validate Id Type data");
 		}
+		dto.validateId(validationMessages);
 		return validationMessages;
 	}
 }

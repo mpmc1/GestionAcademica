@@ -17,6 +17,7 @@ public class UpdateIdTypeValidator implements Validator<IdTypeDTO>{
 		if (UtilObject.getUtilObject().isNull(dto)) {
 			validationMessages.add("Is not possible to validate Id Type data");
 		}
+		dto.validateId(validationMessages);
 		dto.validateName(validationMessages);
 		return validationMessages;
 	}

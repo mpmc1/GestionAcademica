@@ -122,28 +122,5 @@ public class IdTypeFacadeImpl  implements IdTypeFacade{
 		
 	}
 
-	@Override
-	public List<IdTypeDTO> findUsedIdTypes() {
-		DAOFactory daoFactory = DAOFactory.getDaoFactory();
-		try {
-			
-			daoFactory.initTransaction();
-			
-			IdTypeBusiness idTypeBusiness = new IdTypeBussinesImpl(daoFactory);
-			return idTypeBusiness.findUsedIdTypes();
-			
-		} catch (GradesException exception){
-			throw exception;
-			
-		} catch (Exception exception){
-			var message = "There was an unexpected problem trying to find the used IdTypes on 'findUsedIdTypes' method of IdTypeFacadeImpl";
-			throw GradesException.buildTechnicalBussinessLogicException(message);
-		} finally {
-			
-			daoFactory.closeConnection();
-			
-		}
-	}
-
 
 }

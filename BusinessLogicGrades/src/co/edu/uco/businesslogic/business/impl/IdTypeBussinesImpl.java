@@ -43,8 +43,9 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 		
 	}
 	
-	private void validateIfExist(IdTypeDTO dto) {
-		List<IdTypeDTO> existingIdType = daoFactory.getIdtypeDAO().find(dto);
+	private void validateIfExistId(IdTypeDTO dto) {
+		IdTypeDTO justId = new IdTypeDTO(dto.getId(), "");
+		List<IdTypeDTO> existingIdType = daoFactory.getIdtypeDAO().find(justId);
 		if(existingIdType.isEmpty()) {
 			throw GradesException.buildBussinessLogicException("id type to not found");
 		}
@@ -52,35 +53,36 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 	}
 	
 	private void validateIfIsUsed(IdTypeDTO dto) {
-		var used = false;
-		List<StudentDTO> students = daoFactory.getStudentDAO().find(new StudentDTO());
-		List<ProfessorDTO> professors = daoFactory.getProfessorDAO().find(new ProfessorDTO());
+		StudentDTO student = new StudentDTO();
+		student.setIdType(dto);
+		ProfessorDTO professor = new ProfessorDTO();
+		professor.setIdType(dto);
 		
-		if(!students.isEmpty()) {
-			for (int index = 0; index < students.size(); index++) {
-				if(students.get(index).getIdType().getId() == dto.getId()) {
-					used = true;
-				}
-			}
+		if(!daoFactory.getStudentDAO().find(student).isEmpty()) {
+			throw GradesException.buildBussinessLogicException("Id type is associated whit a Student");
+		}
+		if(!daoFactory.getProfessorDAO().find(professor).isEmpty()) {
+			throw GradesException.buildBussinessLogicException("Id type is associated whit a Professor");
 		}
 		
-		if(!used && !professors.isEmpty()) {
-			for (int index = 0; index < professors.size(); index++) {
-				if(professors.get(index).getIdType().getId() == dto.getId()) {
-					used = true;
-				}
-			}
-		}
+	}
+	
+	public void validateDuplicated(IdTypeDTO dto) {
+		IdTypeDTO dtoValidator = new IdTypeDTO();
+		dtoValidator.setName(dto.getName());
 		
-		if(used) {
-			throw GradesException.buildBussinessLogicException("id type is used by other(s) entity(ies)");
-		}
+		List<IdTypeDTO> list = daoFactory.getIdtypeDAO().find(dtoValidator);
 		
+		if(!list.isEmpty() && dto.getId() != list.get(0).getId()) {
+			var message = "An id type with the same name already exist";
+			throw GradesException.buildBussinessLogicException(message);
+		}		
 	}
 
 	@Override
 	public void update(IdTypeDTO dto) {
-		validateIdTypeDeosNotExistWithSameName(dto);
+		validateIfExistId(dto);
+		validateDuplicated(dto);
 		daoFactory.getIdtypeDAO().update(dto);
 		
 	}
@@ -88,10 +90,10 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 	@Override
 	public void delete(int id) {
 		IdTypeDTO dto = new IdTypeDTO(id, "");
-		validateIfExist(dto);
+		validateIfExistId(dto);
 		validateIfIsUsed(dto);
 		daoFactory.getIdtypeDAO().delete(id);
-		
+
 	}
 
 	@Override

@@ -38,12 +38,12 @@ public class IdTypeController {
 		Response<IdTypeDTO> response = new Response<>();
 		ResponseEntity<Response<IdTypeDTO>> responseEntity;
 		HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+		response.setData(new ArrayList<>());
 
 		if (messages.isEmpty()) {
 			try {
 				IdTypeFacade facade = new IdTypeFacadeImpl();
 				facade.create(dto);
-				response.setData(new ArrayList<>());
 				messages.add("IdType was created successfully");
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
@@ -74,17 +74,17 @@ public class IdTypeController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Response<IdTypeDTO>> update(@PathVariable("id") int id, @RequestBody IdTypeDTO dto) {
 		Validator<IdTypeDTO> validator = new UpdateIdTypeValidator();
-		List<String> messages = UtilObject.getUtilObject().getDefault(validator.validate(dto), new ArrayList<>());
+		IdTypeDTO updateDTO = new IdTypeDTO(id, dto.getName());
+		List<String> messages = UtilObject.getUtilObject().getDefault(validator.validate(updateDTO), new ArrayList<>());
 		Response<IdTypeDTO> response = new Response<>();
 		ResponseEntity<Response<IdTypeDTO>> responseEntity;
 		HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+		response.setData(new ArrayList<>());
 
 		if (messages.isEmpty()) {
 			try {
-				IdTypeDTO updateDTO = new IdTypeDTO(id, dto.getName());
 				IdTypeFacade facade = new IdTypeFacadeImpl();
 				facade.update(updateDTO);
-				response.setData(new ArrayList<>());
 				messages.add("IdType was updated successfully");
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
@@ -120,12 +120,13 @@ public class IdTypeController {
 		Response<IdTypeDTO> response = new Response<>();
 		ResponseEntity<Response<IdTypeDTO>> responseEntity;
 		HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+		response.setData(new ArrayList<>());
+		
 		if (messages.isEmpty()) {
 			
 			try {
 				IdTypeFacade facade = new IdTypeFacadeImpl();
 				facade.delete(dto.getId());
-				response.setData(new ArrayList<>());
 				messages.add("IdType deleted successfully");
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
@@ -136,7 +137,7 @@ public class IdTypeController {
 					System.err.println(exception.getTechnicalMessage());
 					exception.getRootException().printStackTrace();
 				} else {
-					messages.add(exception.getMessage());
+					messages.add(exception.getUserMessage());
 					System.err.println(exception.getLocation());
 					System.err.println(exception.getType());
 					System.err.println(exception.getUserMessage());
@@ -182,7 +183,7 @@ public class IdTypeController {
 					System.err.println(exception.getTechnicalMessage());
 					exception.getRootException().printStackTrace();
 				} else {
-					messages.add(exception.getMessage());
+					messages.add(exception.getUserMessage());
 					System.err.println(exception.getLocation());
 					System.err.println(exception.getType());
 					System.err.println(exception.getUserMessage());
@@ -219,7 +220,7 @@ public class IdTypeController {
 				System.err.println(exception.getMessage());
 				exception.getRootException().printStackTrace();
 			} else {
-				messages.add(exception.getMessage());
+				messages.add(exception.getUserMessage());
 				System.err.println(exception.getLocation());
 				System.err.println(exception.getType());
 				System.err.println(exception.getUserMessage());
