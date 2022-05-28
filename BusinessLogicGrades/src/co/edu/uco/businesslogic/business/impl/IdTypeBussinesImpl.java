@@ -40,6 +40,29 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 		}
 		
 	}
+	
+	private void validateIfExist(IdTypeDTO dto) {
+		List<IdTypeDTO> existingIdType = daoFactory.getIdtypeDAO().find(dto);
+		if(existingIdType.isEmpty()) {
+			throw GradesException.buildBussinessLogicException("id type to not found");
+		}
+		
+	}
+	
+	private void validateIfIsUsed(IdTypeDTO dto) {
+		var used = false;
+		List<IdTypeDTO> usedIdTypes = daoFactory.getIdtypeDAO().findUsedIdTypes();
+		if(!usedIdTypes.isEmpty()) {
+			for(int index = 0; index < usedIdTypes.size(); index++) {
+				if(usedIdTypes.get(index).getId() == dto.getId()) {
+					used = true;
+				}
+			}
+			if(used) {
+				throw GradesException.buildBussinessLogicException("The id type is already used by other entities");
+			}
+		}
+	}
 
 	@Override
 	public void update(IdTypeDTO dto) {
@@ -50,12 +73,15 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 
 	@Override
 	public void delete(int id) {
+		IdTypeDTO dto = new IdTypeDTO(id, "");
+		validateIfExist(dto);
+		validateIfIsUsed(dto);
 		daoFactory.getIdtypeDAO().delete(id);
 		
 	}
 
 	@Override
-	public List<IdTypeDTO> find(IdTypeDTO dto) {
+	public List<IdTypeDTO> find(IdTypeDTO dto) {	
 		return daoFactory.getIdtypeDAO().find(dto);
 	}
 

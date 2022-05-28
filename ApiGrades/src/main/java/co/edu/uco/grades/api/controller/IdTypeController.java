@@ -43,6 +43,7 @@ public class IdTypeController {
 			try {
 				IdTypeFacade facade = new IdTypeFacadeImpl();
 				facade.create(dto);
+				response.setData(new ArrayList<>());
 				messages.add("IdType was created successfully");
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
@@ -83,6 +84,7 @@ public class IdTypeController {
 				IdTypeDTO updateDTO = new IdTypeDTO(id, dto.getName());
 				IdTypeFacade facade = new IdTypeFacadeImpl();
 				facade.update(updateDTO);
+				response.setData(new ArrayList<>());
 				messages.add("IdType was updated successfully");
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
@@ -123,6 +125,7 @@ public class IdTypeController {
 			try {
 				IdTypeFacade facade = new IdTypeFacadeImpl();
 				facade.delete(dto.getId());
+				response.setData(new ArrayList<>());
 				messages.add("IdType deleted successfully");
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
@@ -163,8 +166,13 @@ public class IdTypeController {
 			
 			try {
 				IdTypeFacade facade = new IdTypeFacadeImpl();
-				response.setData(facade.find(dto));
-				messages.add("IdTypes were found successfully");
+				List<IdTypeDTO> res = facade.find(dto);
+				if(res.isEmpty()) {
+					messages.add("idType not found");
+				}else {
+					messages.add("IdTypes were found successfully");
+				}
+				response.setData(res);
 				statusCode = HttpStatus.OK;
 			} catch (GradesException exception) {
 				if (ExceptionType.TECHNICAL.equals(exception.getType())) {
