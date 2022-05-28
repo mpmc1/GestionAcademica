@@ -1,7 +1,7 @@
 package co.edu.uco.businesslogic.business.impl;
 
-import co.edu.uco.businesslogic.business.StudentBusiness;
 import co.edu.uco.crosscutting.util.object.UtilObject;
+import co.edu.uco.grades.businesslogic.business.StudentBusiness;
 import co.edu.uco.grades.crosscutting.exception.GradesException;
 import co.edu.uco.grades.data.factory.DAOFactory;
 import co.edu.uco.grades.dto.StudentDTO;

@@ -1,13 +1,13 @@
 package co.edu.uco.grades.data.dao.azuresql;
 
+import static co.edu.uco.crosscutting.util.text.UtilText.SPACE;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static co.edu.uco.crosscutting.util.text.UtilText.SPACE;
 
 import co.edu.uco.crosscutting.util.numeric.UtilNumeric;
 import co.edu.uco.crosscutting.util.object.UtilObject;
@@ -90,34 +90,33 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 
 	@Override
 	public List<IdTypeDTO> find(IdTypeDTO idType) {
-		
+
 		boolean setWhere = true;
 		List<Object> parameters = new ArrayList<>();
 		List<IdTypeDTO> results = new ArrayList<IdTypeDTO>();
-		
+
 		StringBuilder sb = new StringBuilder(SPACE);
 		sb.append("Select id, name").append(SPACE);
-		sb.append("From IdType");
-		
-		if(!UtilObject.getUtilObject().isNull(idType)) {
-			
-			if(UtilNumeric.getUtilNumeric().isGreatherThan(idType.getId(), 0)) {
+		sb.append("From IdType ");
+
+		if (!UtilObject.getUtilObject().isNull(idType)) {
+
+			if (UtilNumeric.getUtilNumeric().isGreatherThan(idType.getId(), 0)) {
 				sb.append("WHERE").append(SPACE);
 				sb.append("id = ? ");
 				parameters.add(idType.getId());
 				setWhere = false;
-				
-				
+
 			}
-			
-			if(!UtilText.isEmpty(idType.getName())) {
-				sb.append(setWhere?"WHERE ": "AND ");
+
+			if (!UtilText.isEmpty(idType.getName())) {
+				sb.append(setWhere ? "WHERE " : "AND ");
 				sb.append("name = ? ");
 				parameters.add(UtilText.trim(idType.getName()));
 			}
-			
+
 		}
-		
+
 		sb.append("ORDER BY name ASC");
 
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sb.toString())) {
@@ -125,14 +124,13 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 			for (int index = 0; index < parameters.size(); index++) {
 				preparedStatement.setObject(index + 1, parameters.get(index));
 			}
-			
+
 			results = executeQuery(preparedStatement);
-			
-			
-		} catch(GradesException exception){
+
+		} catch (GradesException exception) {
 			throw exception;
-			
-		}catch (SQLException exception) {
+
+		} catch (SQLException exception) {
 
 			throw GradesException.buildTechnicalDataException(
 					"There was a problem trying to find id type registry on sql server", exception);
@@ -143,53 +141,55 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 					"There was an unexpected problem trying to find an id type registry on sql server", exception);
 
 		}
-		
+
 		return results;
 
 	}
-	
-	private List<IdTypeDTO> executeQuery( PreparedStatement preparedStatement){
-		
+
+	private List<IdTypeDTO> executeQuery(PreparedStatement preparedStatement) {
+
 		List<IdTypeDTO> results = new ArrayList<>();
-		
-		try(ResultSet resultSet = preparedStatement.executeQuery()){
-			
+
+		try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
 			results = assembleResults(resultSet);
-			
+
 		} catch (SQLException exception) {
 
 			throw GradesException.buildTechnicalDataException(
-					"There was a problem trying to execute the query for recover id type registry on sql server", exception);
+					"There was a problem trying to execute the query for recover id type registry on sql server",
+					exception);
 
 		} catch (Exception exception) {
 
 			throw GradesException.buildTechnicalDataException(
-					"There was an unexpected problem trying to execute the query for recover id type registry on sql server", exception);
+					"There was an unexpected problem trying to execute the query for recover id type registry on sql server",
+					exception);
 
 		}
-		
+
 		return results;
-		
+
 	}
-	
-	private List<IdTypeDTO> assembleResults(ResultSet resultSet){
+
+	private List<IdTypeDTO> assembleResults(ResultSet resultSet) {
 		List<IdTypeDTO> results = new ArrayList<>();
-		
+
 		try {
-			while(resultSet.next()) {
-				
+			while (resultSet.next()) {
+
 				results.add(assembleDTO(resultSet));
-				
+
 			}
-			
-		}catch (GradesException exception){
-			
+
+		} catch (GradesException exception) {
+
 			throw exception;
-			
+
 		} catch (SQLException exception) {
 
-			throw GradesException.buildTechnicalDataException(
-					"There was a problem trying to recover the id types", exception);
+			throw GradesException.buildTechnicalDataException("There was a problem trying to recover the id types",
+					exception);
 
 		} catch (Exception exception) {
 
@@ -197,24 +197,24 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 					"There was an unexpected problem trying to recover the id types registry on sql server", exception);
 
 		}
-		
+
 		return results;
-		
+
 	}
-	
+
 	private IdTypeDTO assembleDTO(ResultSet resultSet) {
-		
+
 		IdTypeDTO dto = new IdTypeDTO();
-		
+
 		try {
-			
+
 			dto.setId(resultSet.getInt("id"));
 			dto.setName(resultSet.getString("name"));
-			
+
 		} catch (SQLException exception) {
 
-			throw GradesException.buildTechnicalDataException(
-					"There was a problem trying to assemble the id types", exception);
+			throw GradesException.buildTechnicalDataException("There was a problem trying to assemble the id types",
+					exception);
 
 		} catch (Exception exception) {
 
@@ -222,9 +222,9 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 					"There was an unexpected problem trying to assemble the id types on sql server", exception);
 
 		}
-		
+
 		return dto;
-		
+
 	}
 
 }

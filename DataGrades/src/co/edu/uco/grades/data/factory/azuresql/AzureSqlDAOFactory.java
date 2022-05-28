@@ -42,7 +42,7 @@ public class AzureSqlDAOFactory extends DAOFactory {
 	@Override
 	protected void openConnection() {
 
-		String stringConnection = "jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser;password=4c4d3m1cDmlUs3r;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30";
+		String stringConnection = "jdbc:sqlserver://academic-database-server.database.windows.net:1433;database=academic-db;user=academicDmlUser;password=4c4d3m1cDmlUs3r;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 		try {
 			connection = DriverManager.getConnection(stringConnection);
 
@@ -67,7 +67,7 @@ public class AzureSqlDAOFactory extends DAOFactory {
 
 	@Override
 	public void closeConnection() {
-		if (!UtilConnection.isClosed(getConnection())) {
+		if (UtilConnection.isClosed(getConnection())) {
 			throw GradesException
 					.buildTechnicalException("It's not possible to close a connection because the conection is closed");
 		}
