@@ -2,7 +2,6 @@ package co.edu.uco.grades.businesslogic.facade;
 
 import java.util.List;
 
-import co.edu.uco.grades.data.factory.DAOFactory;
 import co.edu.uco.grades.dto.IdTypeDTO;
 
 public interface IdTypeFacade {
@@ -11,5 +10,5 @@ public interface IdTypeFacade {
 	void update(IdTypeDTO dto);
 	void delete(int id);
 	List<IdTypeDTO> find(IdTypeDTO dto);
-
+	List<IdTypeDTO> findUsedIdTypes();
 }

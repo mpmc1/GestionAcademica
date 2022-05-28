@@ -43,6 +43,7 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 
 	@Override
 	public void update(IdTypeDTO dto) {
+		validateIdTypeDeosNotExistWithSameName(dto);
 		daoFactory.getIdtypeDAO().update(dto);
 		
 	}
@@ -56,6 +57,12 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 	@Override
 	public List<IdTypeDTO> find(IdTypeDTO dto) {
 		return daoFactory.getIdtypeDAO().find(dto);
+	}
+
+	@Override
+	public List<IdTypeDTO> findUsedIdTypes() {
+		// TODO Auto-generated method stub
+		return daoFactory.getIdtypeDAO().findUsedIdTypes();
 	}
 
 }

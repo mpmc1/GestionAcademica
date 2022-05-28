@@ -33,6 +33,7 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 			preparedStatement.setString(1, idType.getName());
+			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 
 			throw GradesException.buildTechnicalDataException(
@@ -54,6 +55,7 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 			preparedStatement.setString(1, idType.getName());
 			preparedStatement.setInt(2, idType.getId());
+			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 
 			throw GradesException.buildTechnicalDataException(
@@ -74,6 +76,7 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 
 		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
 			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 
 			throw GradesException.buildTechnicalDataException(
@@ -144,6 +147,32 @@ public class IdTypeAzureSqlDAO extends ConnectionSQL implements IdTypeDAO {
 
 		return results;
 
+	}
+	
+	@Override
+	public List<IdTypeDTO> findUsedIdTypes() {
+		
+		List<IdTypeDTO> results = new ArrayList<IdTypeDTO>();
+		
+		String sql = "SELECT IT.id, IT.name FROM Student ST INNER JOIN IdType IT ON ST.idType = IT.id "
+				+ "UNION SELECT IT2.id, IT2.name FROM Professor PR INNER JOIN IdType IT2 ON PR.idType = IT2.id;";
+
+		try (PreparedStatement preparedStatement = getConnection().prepareStatement(sql)) {
+			results = executeQuery(preparedStatement);
+		} catch (SQLException exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was a problem trying to delete an id type registry on sql server", exception);
+
+		} catch (Exception exception) {
+
+			throw GradesException.buildTechnicalDataException(
+					"There was an unexpected problem trying to delete an id type registry on sql server", exception);
+
+		}
+		
+		return results;
+		
 	}
 
 	private List<IdTypeDTO> executeQuery(PreparedStatement preparedStatement) {
