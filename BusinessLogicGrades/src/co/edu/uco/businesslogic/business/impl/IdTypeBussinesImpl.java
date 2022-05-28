@@ -7,6 +7,8 @@ import co.edu.uco.grades.businesslogic.business.IdTypeBusiness;
 import co.edu.uco.grades.crosscutting.exception.GradesException;
 import co.edu.uco.grades.data.factory.DAOFactory;
 import co.edu.uco.grades.dto.IdTypeDTO;
+import co.edu.uco.grades.dto.ProfessorDTO;
+import co.edu.uco.grades.dto.StudentDTO;
 
 public class IdTypeBussinesImpl implements IdTypeBusiness {
 	
@@ -51,17 +53,29 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 	
 	private void validateIfIsUsed(IdTypeDTO dto) {
 		var used = false;
-		List<IdTypeDTO> usedIdTypes = daoFactory.getIdtypeDAO().findUsedIdTypes();
-		if(!usedIdTypes.isEmpty()) {
-			for(int index = 0; index < usedIdTypes.size(); index++) {
-				if(usedIdTypes.get(index).getId() == dto.getId()) {
+		List<StudentDTO> students = daoFactory.getStudentDAO().find(new StudentDTO());
+		List<ProfessorDTO> professors = daoFactory.getProfessorDAO().find(new ProfessorDTO());
+		
+		if(!students.isEmpty()) {
+			for (int index = 0; index < students.size(); index++) {
+				if(students.get(index).getIdType().getId() == dto.getId()) {
 					used = true;
 				}
 			}
-			if(used) {
-				throw GradesException.buildBussinessLogicException("The id type is already used by other entities");
+		}
+		
+		if(!used && !professors.isEmpty()) {
+			for (int index = 0; index < professors.size(); index++) {
+				if(professors.get(index).getIdType().getId() == dto.getId()) {
+					used = true;
+				}
 			}
 		}
+		
+		if(used) {
+			throw GradesException.buildBussinessLogicException("id type is used by other(s) entity(ies)");
+		}
+		
 	}
 
 	@Override
@@ -83,12 +97,6 @@ public class IdTypeBussinesImpl implements IdTypeBusiness {
 	@Override
 	public List<IdTypeDTO> find(IdTypeDTO dto) {	
 		return daoFactory.getIdtypeDAO().find(dto);
-	}
-
-	@Override
-	public List<IdTypeDTO> findUsedIdTypes() {
-		// TODO Auto-generated method stub
-		return daoFactory.getIdtypeDAO().findUsedIdTypes();
 	}
 
 }

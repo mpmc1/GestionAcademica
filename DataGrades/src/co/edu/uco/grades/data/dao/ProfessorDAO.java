@@ -1,5 +1,7 @@
 package co.edu.uco.grades.data.dao;
 
+import java.util.List;
+
 import co.edu.uco.grades.dto.ProfessorDTO;
 
 public interface ProfessorDAO {
@@ -7,6 +9,6 @@ public interface ProfessorDAO {
 	void create(ProfessorDTO professor);
 	void update(ProfessorDTO professor);
 	void delete(int id);
-	void find(ProfessorDTO professor);
+	List<ProfessorDTO> find(ProfessorDTO professor);
 
 }

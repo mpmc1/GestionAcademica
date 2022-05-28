@@ -10,6 +10,5 @@ public interface IdTypeDAO {
 	void update(IdTypeDTO idType);
 	void delete(int id);
 	List<IdTypeDTO> find(IdTypeDTO idType);
-	List<IdTypeDTO> findUsedIdTypes();
 
 }

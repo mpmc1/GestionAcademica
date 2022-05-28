@@ -10,6 +10,5 @@ public interface IdTypeBusiness {
 	void update(IdTypeDTO dto);
 	void delete(int id);
 	List<IdTypeDTO> find(IdTypeDTO dto);
-	List<IdTypeDTO> findUsedIdTypes();
 
 }
